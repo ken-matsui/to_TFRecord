@@ -29,7 +29,7 @@ def main(filedir):
 						int64_list=tf.train.Int64List(value=[height])),
 				"width": tf.train.Feature(
 						int64_list=tf.train.Int64List(value=[width])),
-				"depth": tf.train.Feature(
+				"channels": tf.train.Feature(
 						int64_list=tf.train.Int64List(value=[channels])),
 		}))
 		writer.write(record.SerializeToString())
