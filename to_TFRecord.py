@@ -11,7 +11,7 @@ from PIL import Image # pip install Pillow
 @click.command()
 @click.argument('filedir')
 def main(filedir):
-	dataset_path = "./dataset.tfrecords"
+	dataset_path = "./dataset.tfrecord"
 	width, height = 96, 96
 	channels = 3
 	datas = os.listdir(filedir)
