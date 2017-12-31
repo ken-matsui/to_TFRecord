@@ -18,17 +18,13 @@ def main(filedir):
 	writer = tf.python_io.TFRecordWriter(dataset_path)
 	for img_name in datas:
 		# Resize
-		img_obj = Image.open(filedir + "/" + img_name).convert("RGB").resize((width, height))
+		img_obj = Image.open(filedir + "/" + img_name).convert("RGB")
 		# Convert to bytes
 		img = np.array(img_obj).tostring()
 
 		record = tf.train.Example(features=tf.train.Features(feature={
 				"image": tf.train.Feature(
 						bytes_list=tf.train.BytesList(value=[img])),
-				"height": tf.train.Feature(
-						int64_list=tf.train.Int64List(value=[height])),
-				"width": tf.train.Feature(
-						int64_list=tf.train.Int64List(value=[width])),
 				"channels": tf.train.Feature(
 						int64_list=tf.train.Int64List(value=[channels])),
 		}))
