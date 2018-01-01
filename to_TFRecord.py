@@ -15,6 +15,7 @@ def main(file_path):
 	channels = 3
 	datas = os.listdir(file_path)
 	writer = tf.python_io.TFRecordWriter(dataset_path)
+	print("Convert to TFRecord...")
 	for i, img_name in enumerate(datas):
 		# Resize
 		img_obj = Image.open(file_path + "/" + img_name).convert("RGB").resize((width, height))
