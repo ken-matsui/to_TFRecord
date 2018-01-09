@@ -9,16 +9,15 @@ import numpy as np
 from PIL import Image # pip install Pillow
 
 
-def main(file_path):
-	dataset_path = "./dataset.tfrecord"
+def main(input_path, output_path):
 	width, height = 96, 96
 	channels = 3
-	datas = os.listdir(file_path)
-	writer = tf.python_io.TFRecordWriter(dataset_path)
+	datas = os.listdir(input_path)
+	writer = tf.python_io.TFRecordWriter(output_path)
 	print("Convert to TFRecord...")
 	for i, img_name in enumerate(datas):
 		# Resize
-		img_obj = Image.open(file_path + "/" + img_name).convert("RGB").resize((width, height))
+		img_obj = Image.open(input_path + "/" + img_name).convert("RGB").resize((width, height))
 		# Convert to bytes
 		img = np.array(img_obj).tostring()
 
@@ -60,7 +59,7 @@ def calc_bar(now_count, max_count):
 	return bar, percent
 
 if __name__ == '__main__':
-	if len(sys.argv) != 2:
-		print(':Usage: python %s file_path' %sys.argv[0])
+	if len(sys.argv) != 3:
+		print(':Usage: python %s input_path output_path' %sys.argv[0])
 	else:
-		main(sys.argv[1])
+		main(sys.argv[1], sys.argv[2])
