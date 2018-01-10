@@ -38,24 +38,21 @@ def main(input_path, output_path):
 	print("\ndone.")
 
 def print_bar(now_count, max_count):
-	def run(now_count):
-		if now_count > max_count:
-			now_count = max_count
+	def run():
 		max_bar_size = 50
 		percent = (now_count*100) // max_count
 		bar_num = percent // 2
-		bar = ""
-		if (bar_num - 1) > 0:
-			bar += "=" * (bar_num - 1)
-			bar += ">"
-			bar += " " * (max_bar_size - bar_num)
+		if now_count >= max_count:
+			bar = "=" * (max_bar_size-1) + ">"
+			percent = 100
+		elif (bar_num - 1) > 0:
+			bar = "=" * (bar_num-1) + ">" + " " * (max_bar_size-bar_num)
 		elif bar_num == 1:
-			bar = ">"
-			bar += " " * (max_bar_size - 1)
+			bar = ">" + " " * (max_bar_size-1)
 		else:
-			bar += " " * max_bar_size
+			bar = " " * max_bar_size
 		sys.stdout.write("\r{}/{} [{}] - {}%".format(now_count, max_count, bar, percent))
-	thread = threading.Thread(target=run, args=(now_count,))
+	thread = threading.Thread(target=run)
 	thread.start()
 
 if __name__ == '__main__':
