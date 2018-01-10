@@ -3,6 +3,7 @@
 # Inside modules
 import os
 import sys
+import threading
 # Outside modules
 import tensorflow as tf
 import numpy as np
@@ -32,31 +33,30 @@ def main(input_path, output_path):
 						int64_list=tf.train.Int64List(value=[channels])),
 		}))
 		writer.write(record.SerializeToString())
-
-		bar, percent = calc_bar(i+1, len(datas))
-		sys.stdout.write("\r{}/{} [{}] - {}%".format(i+1, len(datas), bar, percent))
+		print_bar(i+1, len(datas))
 	writer.close()
 	print("\ndone.")
 
-def calc_bar(now_count, max_count):
-	max_bar_size = 50
-	percent = (now_count*100) // max_count
-	bar_num = percent // 2
-	bar = ""
-	if (bar_num - 1) > 0:
-		for _ in range(bar_num - 1):
-			bar += "="
-		bar += ">"
-		for _ in range(max_bar_size - bar_num):
-			bar += " "
-	elif bar_num == 1:
-		bar = ">"
-		for _ in range(max_bar_size - 1):
-			bar += " "
-	else:
-		for _ in range(max_bar_size):
-			bar += " "
-	return bar, percent
+def print_bar(now_count, max_count):
+	def run(now_count):
+		if now_count > max_count:
+			now_count = max_count
+		max_bar_size = 50
+		percent = (now_count*100) // max_count
+		bar_num = percent // 2
+		bar = ""
+		if (bar_num - 1) > 0:
+			bar += "=" * (bar_num - 1)
+			bar += ">"
+			bar += " " * (max_bar_size - bar_num)
+		elif bar_num == 1:
+			bar = ">"
+			bar += " " * (max_bar_size - 1)
+		else:
+			bar += " " * max_bar_size
+		sys.stdout.write("\r{}/{} [{}] - {}%".format(now_count, max_count, bar, percent))
+	thread = threading.Thread(target=run, args=(now_count,))
+	thread.start()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 3:
