@@ -51,7 +51,7 @@ def print_bar(now_count, max_count):
 			bar = ">" + " " * (max_bar_size-1)
 		else:
 			bar = " " * max_bar_size
-		sys.stdout.write("\r{}/{} [{}] - {}%".format(now_count, max_count, bar, percent))
+		sys.stdout.write("{}/{} [{}] - {}%\r".format(now_count, max_count, bar, percent))
 	thread = threading.Thread(target=run)
 	thread.start()
 
