@@ -45,6 +45,7 @@ def print_bar(now_count, max_count):
 		if now_count >= max_count:
 			bar = "=" * (max_bar_size-1) + ">"
 			percent = 100
+			now_count = max_count
 		elif (bar_num - 1) > 0:
 			bar = "=" * (bar_num-1) + ">" + " " * (max_bar_size-bar_num)
 		elif bar_num == 1:
